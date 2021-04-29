@@ -49,20 +49,30 @@ func parseRequest(body string) ([]string, []string) {
 			fmt.Printf("\n%v is INVALID\n", class)
 		}
 	})
-
+	var sliceElements []string
 	// Get name of each body of water
 	doc.Find("p strong").Each(func(i int, s *goquery.Selection) {
 		txt := s.Text()
-		fmt.Printf("Iteration %d - %v\n", i, txt)
-		if len(txt) >= 5 {
-			waters = append(waters, txt)
-			fmt.Println(txt)
-		}
+		fmt.Println(txt)
+		sliceElements = append(sliceElements, txt)
 	})
+	// Bodies of water that do not have reports for any reason
+	for i := 0; i < len(sliceElements)-1; i++ {
+		fmt.Printf("%d %v\n", i, sliceElements[i])
+		if strings.Contains(sliceElements[i+1], "No") {
+			fmt.Printf("%v should not have a report\n", sliceElements[i])
+		} else if len(sliceElements[i]) <= 5 || strings.Contains(sliceElements[i], "No") {
+			fmt.Println("Less than 5 chars.")
+		} else {
+			waters = append(waters, sliceElements[i])
+			fmt.Printf("Else block %v\n", sliceElements[i])
+		}
+	}
+	fmt.Println(waters)
 
 	// Remove last element of waters slice, removes AZGFD element
 	ratings = mapRatings(ratings)
-	return ratings, waters[0 : len(waters)-1]
+	return ratings, waters
 }
 
 // mapRatings maps the CSS class of rating to human-readable rating
@@ -87,15 +97,16 @@ func mapRatings(ratings []string) []string {
 }
 
 func main() {
-	results := makeRequest("https://www.azgfd.com/fishing/forecast/mogollon-rim/#mogollon")
+	results := makeRequest("https://www.azgfd.com/fishing/forecast/#central")
 	sliceRatings, sliceWaters := parseRequest(results)
 	fmt.Printf("Ratings: %v; length: %d.\nWaters: %v, length %d", sliceRatings, len(sliceRatings),
 		sliceWaters, len(sliceWaters))
 }
 
-// https://www.azgfd.com/fishing/forecast/mogollon-rim/#mogollon ; Working, just need to remove last entry
-// https://www.azgfd.com/fishing/forecast/#central ; Working, just need to remove last entry
-// https://www.azgfd.com/fishing/forecast/se-central-az/#se-az ; Working, just need to remove last entry
+// https://www.azgfd.com/fishing/forecast/mogollon-rim/#mogollon ;
+// https://www.azgfd.com/fishing/forecast/#central ;
+// https://www.azgfd.com/fishing/forecast/se-central-az/#se-az ; <-- Cluff Ranch Ponds show up even though they say they are closed to public...
+// Solution: Force sliceRatings and sliceWaters to be equal in size.
 
 /*
 
