@@ -25,30 +25,72 @@ func makeRequest(url string) string {
 }
 
 // Parse HTML to get name of bodies of water in fishing forecast
-func findWaters(body string) []string {
+func parseRequest(body string) ([]string, []string) {
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(body))
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	var waters []string
-	// if branch for colorado river HERE. Set value of waters to the answer, then return at end of function
-	doc.Find("strong").Each(func(i int, s *goquery.Selection) {
-		txt := s.Text()
-		if len(txt) >= 5 && !strings.EqualFold("no ", txt[0:3]) {
-			// fmt.Printf("Header number %d: %s\n\n", i, txt)
-			waters = append(waters, txt)
-			fmt.Println(waters)
+	var ratings []string
+	validRating := map[string]bool{
+		"alignnone size-full wp-image-9687": true,
+		"alignnone size-full wp-image-9686": true,
+		"alignnone size-full wp-image-9685": true,
+		"alignnone size-full wp-image-9684": true,
+	}
+
+	// Get ratings of each body of water
+	doc.Find("p img").Each(func(i int, s *goquery.Selection) {
+		class, _ := s.Attr("class")
+		if validRating[class] {
+			ratings = append(ratings, class)
+		} else {
+			fmt.Printf("\n%v is INVALID\n", class)
 		}
 	})
+
+	// Get name of each body of water
+	doc.Find("p strong").Each(func(i int, s *goquery.Selection) {
+		txt := s.Text()
+		fmt.Printf("Iteration %d - %v\n", i, txt)
+		if len(txt) >= 5 {
+			waters = append(waters, txt)
+			fmt.Println(txt)
+		}
+	})
+
 	// Remove last element of waters slice, removes AZGFD element
-	return waters[0 : len(waters)-1]
+	ratings = mapRatings(ratings)
+	return ratings, waters[0 : len(waters)-1]
+}
+
+// mapRatings maps the CSS class of rating to human-readable rating
+func mapRatings(ratings []string) []string {
+	var humanRatings []string
+	mapping := map[string]string{
+		"alignnone size-full wp-image-9687": "Good",
+		"alignnone size-full wp-image-9686": "Great",
+		"alignnone size-full wp-image-9685": "Fair",
+		"alignnone size-full wp-image-9684": "Poor",
+	}
+	for i := 0; i < len(ratings); i++ {
+		humanRatings = append(humanRatings, mapping[ratings[i]])
+	}
+	hr := humanRatings
+
+	// Remove the results for the 4 top icons in the legend
+	if hr[0] == "Great" && hr[1] == "Good" && hr[2] == "Fair" && hr[3] == "Poor" {
+		hr = hr[4:]
+	}
+	return hr
 }
 
 func main() {
-	results := makeRequest("https://www.azgfd.com/fishing/forecast/#central")
-	arrayWaters := findWaters(results)
-	fmt.Printf("Here are the waters for that website: %v", arrayWaters)
+	results := makeRequest("https://www.azgfd.com/fishing/forecast/mogollon-rim/#mogollon")
+	sliceRatings, sliceWaters := parseRequest(results)
+	fmt.Printf("Ratings: %v; length: %d.\nWaters: %v, length %d", sliceRatings, len(sliceRatings),
+		sliceWaters, len(sliceWaters))
 }
 
 // https://www.azgfd.com/fishing/forecast/mogollon-rim/#mogollon ; Working, just need to remove last entry
