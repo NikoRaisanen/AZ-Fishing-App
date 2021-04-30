@@ -4,10 +4,30 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
 )
+
+type dbEntry struct {
+	number string
+	name   string
+	rating string
+	time   string
+	region string
+}
+
+func newEntry(i string, name string, rating string, time string, region string) dbEntry {
+	w := dbEntry{
+		number: i,
+		name:   name,
+		rating: rating,
+		time:   time,
+		region: region,
+	}
+	return w
+}
 
 // Make the request to webpage and return response.Body as string
 func makeRequest(url string) string {
@@ -53,19 +73,20 @@ func parseRequest(body string) ([]string, []string) {
 	// Get name of each body of water
 	doc.Find("p strong").Each(func(i int, s *goquery.Selection) {
 		txt := s.Text()
-		fmt.Println(txt)
+		// fmt.Println(txt)
 		sliceElements = append(sliceElements, txt)
 	})
 	// Bodies of water that do not have reports for any reason
 	for i := 0; i < len(sliceElements)-1; i++ {
-		fmt.Printf("%d %v\n", i, sliceElements[i])
+		// fmt.Printf("%d %v\n", i, sliceElements[i])
 		if strings.Contains(sliceElements[i+1], "No") {
-			fmt.Printf("%v should not have a report\n", sliceElements[i])
-		} else if len(sliceElements[i]) <= 5 || strings.Contains(sliceElements[i], "No") {
-			fmt.Println("Less than 5 chars.")
+			// fmt.Printf("%v should not have a report\n", sliceElements[i])
+		} else if len(sliceElements[i]) <= 5 || strings.Contains(sliceElements[i], "No") ||
+			strings.Contains(sliceElements[i], "Cluff Ranch") {
+			// fmt.Println("Less than 5 chars.")
 		} else {
 			waters = append(waters, sliceElements[i])
-			fmt.Printf("Else block %v\n", sliceElements[i])
+			// fmt.Printf("Else block %v\n", sliceElements[i])
 		}
 	}
 	fmt.Println(waters)
@@ -96,11 +117,90 @@ func mapRatings(ratings []string) []string {
 	return hr
 }
 
+func prepData(r []string, w []string) ([15][]string, int) {
+	// var data []string
+	var dataSlice [15][]string
+	w = w[0:len(r)]
+	for i := 0; i < len(w); i++ {
+		name := w[i]
+		rating := r[i]
+		iString := strconv.Itoa(i)
+		dbLine := newEntry(iString, name, rating, "saturday", "az")
+		fmt.Println(dbLine)
+		dataSlice[i] = append(dataSlice[i], dbLine.number, dbLine.name,
+			dbLine.rating, dbLine.time, dbLine.region)
+	}
+	// fmt.Println(data)
+	// fmt.Println(dataSlice)
+	// Remove empty arrays
+	var counter int
+	for _, array := range dataSlice {
+		if array == nil {
+			counter++
+		}
+	}
+	return dataSlice, counter
+}
+
+func aggregateData(d [][]string, d2 [][]string, d3 [][]string, d4 [][]string) [][]string {
+	var finalData [][]string
+	for i := 0; i < len(d); i++ {
+		finalData = append(finalData, d[i])
+	}
+	for i := 0; i < len(d2); i++ {
+		finalData = append(finalData, d2[i])
+	}
+	for i := 0; i < len(d3); i++ {
+		finalData = append(finalData, d3[i])
+	}
+	finalData = append(finalData, d4[0])
+	fmt.Println(finalData)
+	return finalData
+}
+
 func main() {
-	results := makeRequest("https://www.azgfd.com/fishing/forecast/#central")
+	// var finalData [][]string
+	// Start request #1
+	results := makeRequest("https://www.azgfd.com/fishing/forecast/se-central-az/#se-az")
 	sliceRatings, sliceWaters := parseRequest(results)
-	fmt.Printf("Ratings: %v; length: %d.\nWaters: %v, length %d", sliceRatings, len(sliceRatings),
-		sliceWaters, len(sliceWaters))
+	entryData, counter := prepData(sliceRatings, sliceWaters)
+	fmt.Println(entryData)
+	cleanData := append(entryData[0 : len(entryData)-counter][:])
+	fmt.Println(cleanData)
+	fmt.Printf("The data has length: %d\nCounter is %d\n", len(cleanData), counter)
+	// End request #1
+	// Start request #2
+	results2 := makeRequest("https://www.azgfd.com/fishing/forecast/#central")
+	sliceRatings2, sliceWaters2 := parseRequest(results2)
+	entryData2, counter2 := prepData(sliceRatings2, sliceWaters2)
+	fmt.Println(entryData2)
+	cleanData2 := append(entryData2[0 : len(entryData2)-counter2][:])
+	fmt.Println(cleanData2)
+	fmt.Printf("The data has length: %d\nCounter is %d\n", len(cleanData2), counter2)
+	// End request #2
+	// Start request #3
+	results3 := makeRequest("https://www.azgfd.com/fishing/forecast/mogollon-rim/#mogollon")
+	sliceRatings3, sliceWaters3 := parseRequest(results3)
+	entryData3, counter3 := prepData(sliceRatings3, sliceWaters3)
+	fmt.Println(entryData3)
+	cleanData3 := append(entryData3[0 : len(entryData3)-counter3][:])
+	fmt.Println(cleanData3)
+	fmt.Printf("The data has length: %d\nCounter is %d\n", len(cleanData3), counter3)
+	// End request #3
+	// Start request #4
+	results4 := makeRequest("https://www.azgfd.com/fishing/forecast/colorado-river/#colorado-nw")
+	sliceRatings4, sliceWaters4 := parseRequest(results4)
+	entryData4, counter4 := prepData(sliceRatings4, sliceWaters4)
+	fmt.Println(entryData4, counter4)
+	cleanData4 := append(entryData4[0 : len(entryData4)-counter4][:])
+	fmt.Println(cleanData4)
+	fmt.Printf("The data has length: %d\nCounter is %d\n", len(cleanData4), counter4)
+	// End request #4
+
+	// Variable allData contains all data to be inserted into DB
+	allData := aggregateData(cleanData, cleanData2, cleanData3, cleanData4)
+	fmt.Printf("Here is all the data:\n\n%v\nLength: %d\n", allData, len(allData))
+
 }
 
 // https://www.azgfd.com/fishing/forecast/mogollon-rim/#mogollon ;
