@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -9,6 +10,7 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type dbEntry struct {
@@ -165,6 +167,31 @@ func aggregateData(d [][]string, d2 [][]string, d3 [][]string, d4 [][]string) []
 	return finalData
 }
 
+func db_insert(name string, rating string, region string) {
+	pw := get_db_pw("password.txt")
+	db, err := sql.Open("mysql", "root:"+pw+"@tcp(127.0.0.1:3306)/az_water_info")
+
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Println("DATABASE OPEN")
+
+	defer db.Close()
+
+	insert, err := db.Query("insert into waters (name, rating, region) values (?, ?, ?)", name, rating, region)
+	if err != nil {
+		panic(err.Error())
+	}
+	defer insert.Close()
+}
+
+// Pulling db credentials from file for security
+func get_db_pw(path string) string {
+	pw, _ := ioutil.ReadFile(path)
+	pw_string := string(pw)
+	return pw_string
+}
+
 func main() {
 	// Start request #1
 	url1 := "https://www.azgfd.com/fishing/forecast/se-central-az/#se-az"
@@ -211,6 +238,7 @@ func main() {
 	allData := aggregateData(cleanData, cleanData2, cleanData3, cleanData4)
 	fmt.Printf("Here is all the data:\n\n%v\nLength: %d\n", allData, len(allData))
 
+	db_insert("joni", "bad", "az")
 }
 
 // https://www.azgfd.com/fishing/forecast/mogollon-rim/#mogollon ;
