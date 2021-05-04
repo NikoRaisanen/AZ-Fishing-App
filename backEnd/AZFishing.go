@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -69,7 +70,7 @@ func parseRequest(body string) ([]string, []string) {
 		if validRating[class] {
 			ratings = append(ratings, class)
 		} else {
-			fmt.Printf("\n%v is INVALID\n", class)
+			// Pass
 		}
 	})
 	var sliceElements []string
@@ -91,7 +92,6 @@ func parseRequest(body string) ([]string, []string) {
 			waters = append(waters, sliceElements[i])
 		}
 	}
-	fmt.Println(waters)
 
 	// Remove last element of waters slice, removes AZGFD element
 	ratings = mapRatings(ratings)
@@ -136,7 +136,6 @@ func prepData(r []string, w []string, ref string) ([15][]string, int) {
 		iString := strconv.Itoa(i)
 		current_time := time.Now().Format(time.RFC3339)
 		dbLine := newEntry(iString, name, rating, current_time, regionMap[ref])
-		fmt.Println(dbLine)
 		dataSlice[i] = append(dataSlice[i], dbLine.number, dbLine.name,
 			dbLine.rating, dbLine.time, dbLine.region)
 	}
@@ -163,7 +162,6 @@ func aggregateData(d [][]string, d2 [][]string, d3 [][]string, d4 [][]string) []
 		finalData = append(finalData, d3[i])
 	}
 	finalData = append(finalData, d4[0])
-	fmt.Println(finalData)
 	return finalData
 }
 
@@ -174,7 +172,6 @@ func db_insert(name string, rating string, region string) {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Println("DATABASE OPEN")
 
 	defer db.Close()
 
@@ -183,6 +180,48 @@ func db_insert(name string, rating string, region string) {
 		panic(err.Error())
 	}
 	defer insert.Close()
+}
+
+func db_select() []dbEntry {
+	var allResults []dbEntry
+	// var validResults []dbEntry
+	pw := get_db_pw("password.txt")
+	db, err := sql.Open("mysql", "root:"+pw+"@tcp(127.0.0.1:3306)/az_water_info")
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	defer db.Close()
+
+	results, err := db.Query("SELECT * FROM waters")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for results.Next() {
+		var water dbEntry
+
+		err := results.Scan(&water.number, &water.name, &water.rating, &water.region, &water.time)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		// Add results to array here
+		allResults = append(allResults, water)
+	}
+
+	// // Only return results where current day == created_at day
+	// for i := 0; i < len(allResults); i++ {
+	// 	current_time := time.Now()
+	// 	formattedTime := current_time.Format("2006-01-02 15:04:05")
+	// 	if formattedTime[0:10] == allResults[i].time[0:10] {
+	// 		validResults = append(validResults, allResults[i])
+	// 	}
+
+	// }
+
+	return allResults
 }
 
 // Pulling db credentials from file for security
@@ -198,63 +237,36 @@ func main() {
 	results := makeRequest(url1)
 	sliceRatings, sliceWaters := parseRequest(results)
 	entryData, counter := prepData(sliceRatings, sliceWaters, url1)
-	fmt.Println(entryData)
 	cleanData := append(entryData[0 : len(entryData)-counter][:])
-	fmt.Println(cleanData)
-	fmt.Printf("The data has length: %d\nCounter is %d\n", len(cleanData), counter)
 	// End request #1
 	// Start request #2
 	url2 := "https://www.azgfd.com/fishing/forecast/#central"
 	results2 := makeRequest(url2)
 	sliceRatings2, sliceWaters2 := parseRequest(results2)
 	entryData2, counter2 := prepData(sliceRatings2, sliceWaters2, url2)
-	fmt.Println(entryData2)
 	cleanData2 := append(entryData2[0 : len(entryData2)-counter2][:])
-	fmt.Println(cleanData2)
-	fmt.Printf("The data has length: %d\nCounter is %d\n", len(cleanData2), counter2)
 	// End request #2
 	// Start request #3
 	url3 := "https://www.azgfd.com/fishing/forecast/mogollon-rim/#mogollon"
 	results3 := makeRequest(url3)
 	sliceRatings3, sliceWaters3 := parseRequest(results3)
 	entryData3, counter3 := prepData(sliceRatings3, sliceWaters3, url3)
-	fmt.Println(entryData3)
 	cleanData3 := append(entryData3[0 : len(entryData3)-counter3][:])
-	fmt.Println(cleanData3)
-	fmt.Printf("The data has length: %d\nCounter is %d\n", len(cleanData3), counter3)
 	// End request #3
 	// Start request #4
 	url4 := "https://www.azgfd.com/fishing/forecast/colorado-river/#colorado-nw"
 	results4 := makeRequest(url4)
 	sliceRatings4, sliceWaters4 := parseRequest(results4)
 	entryData4, counter4 := prepData(sliceRatings4, sliceWaters4, url4)
-	fmt.Println(entryData4, counter4)
 	cleanData4 := append(entryData4[0 : len(entryData4)-counter4][:])
-	fmt.Println(cleanData4)
-	fmt.Printf("The data has length: %d\nCounter is %d\n", len(cleanData4), counter4)
 	// End request #4
 
 	// Variable allData contains all data to be inserted into DB
 	allData := aggregateData(cleanData, cleanData2, cleanData3, cleanData4)
-	fmt.Printf("Here is all the data:\n\n%v\nLength: %d\n", allData, len(allData))
-
-	db_insert("joni", "bad", "az")
+	for i := 0; i < len(allData); i++ {
+		db_insert(allData[i][1], allData[i][2], allData[i][4])
+	}
+	var dbResults []dbEntry
+	dbResults = db_select()
+	fmt.Println(dbResults)
 }
-
-// https://www.azgfd.com/fishing/forecast/mogollon-rim/#mogollon ;
-// https://www.azgfd.com/fishing/forecast/#central ;
-// https://www.azgfd.com/fishing/forecast/se-central-az/#se-az ; <-- Cluff Ranch Ponds show up even though they say they are closed to public...
-// Solution: Force sliceRatings and sliceWaters to be equal in size.
-
-/*
-
-Webpages to pull from:
-https://www.azgfd.com/fishing/forecast/#central -- normal
-https://www.azgfd.com/fishing/forecast/colorado-river/#colorado-nw -- Only pull the top rating
-https://www.azgfd.com/fishing/forecast/mogollon-rim/#mogollon -- normal
-https://www.azgfd.com/fishing/forecast/se-central-az/#nCent-az -- normal
-
-Colorado NW and SW give same results
-nCent-az and southeast give same results
-
-*/
