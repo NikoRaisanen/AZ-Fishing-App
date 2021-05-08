@@ -1,3 +1,4 @@
+<?php include_once("../backEnd/queries.php") ?>
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="UTF-8">
