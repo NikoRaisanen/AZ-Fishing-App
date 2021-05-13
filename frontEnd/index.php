@@ -1,4 +1,4 @@
-<?php include_once("../backEnd/queries.php") ?>
+<?php include_once("../backEnd/connection.php"); get_pw(); db_connection(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="UTF-8">
@@ -8,6 +8,10 @@
 <link rel="stylesheet" href="style.css">
 <body>
     <h1 id="mainHeader">Niko's AZ Fishing Guide</h1>
+    <form action="../backEnd/queries.php" method="post">
+        <input type="submit" name="myButton" value="GO" />
+    </form>
+
     <div id="content">
         This is where data will be inserted.
     </div>
