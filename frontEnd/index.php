@@ -1,4 +1,6 @@
-<?php include_once("../backEnd/connection.php"); get_pw(); db_connection(); ?>
+<?php 
+    include_once("../backEnd/connection.php"); get_pw(); db_connection(); 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="UTF-8">
@@ -7,13 +9,30 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 <link rel="stylesheet" href="style.css">
 <body>
+    <!-- <script>
+        function reqListener () {
+        console.log(this.responseText);
+        }
+
+        var oReq = new XMLHttpRequest(); // New request object
+        oReq.onload = function() {
+            // This is where you handle what to do with the response.
+            // The actual data is found on this.responseText
+            alert(this.responseText); // Will alert: 42
+        };
+        oReq.open("get", "../backEnd/connection.php", true);
+        //                               ^ Don't block the rest of the execution.
+        //                                 Don't wait until the request finishes to
+        //                                 continue.
+        oReq.send();
+    </script> -->
     <h1 id="mainHeader">Niko's AZ Fishing Guide</h1>
     <form action="../backEnd/queries.php" method="post">
         <input type="submit" name="myButton" value="GO" />
     </form>
 
     <div id="content">
-        This is where data will be inserted.
+        <?php select_query("SELECT * FROM waters"); ?>
     </div>
 <script src="script.js"></script>
 </body>

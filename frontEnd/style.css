@@ -4,3 +4,8 @@ body {
 #mainHeader {
     text-align: center;
 }
+
+img {
+    float: right;
+    color: red;
+}
