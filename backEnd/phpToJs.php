@@ -25,14 +25,21 @@
         return $conn;
     }
 
+    // Get results in json format and pass to AJAX
     function select_query(string $sql) {
         $conn = db_connection();
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
-        // output data of each row
+        // echo [ to represent beginning of json
+        echo "[";
         while($row = $result->fetch_assoc()) {
-            echo $row["id"],",",$row["name"], ",", $row["rating"],",",$row["created_at"],"\n";
+            echo json_encode($row);
+            if ($row["id"] == $result->num_rows) {
+                echo "]";
+            } else {
+                echo ",\n";
+            }
         }
         } else {
         echo "0 results";

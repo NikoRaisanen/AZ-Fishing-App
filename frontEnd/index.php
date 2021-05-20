@@ -1,5 +1,5 @@
 <?php 
-    include_once("../backEnd/connection.php"); get_pw(); db_connection(); 
+    include_once("../backEnd/phpToJs.php"); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 <link rel="stylesheet" href="style.css">
-<body onload="print_results()">
+<body onload="execute_this()">
     <!-- <script>
         // function reqListener () {
         // console.log(this.responseText);
@@ -35,13 +35,12 @@
         oReq.send();
     </script> -->
     <h1 id="mainHeader">Niko's AZ Fishing Guide</h1>
-    <form action="../backEnd/queries.php" method="post">
-        <input type="submit" name="myButton" value="GO" />
-    </form>
-
+        <input id="clickMe" type="button" value="clickme" onclick="populate_results()">
     <div id="content">
+        <p id="testcontent">Hello</p>
         <!-- Use js to populate this -->
     </div>
+    <div id="root"></div>
 <script src="script.js"></script>
 </body>
 </html>
