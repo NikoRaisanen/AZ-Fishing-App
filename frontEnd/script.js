@@ -51,36 +51,59 @@ function populate_results() {
         console.log(entry.id);
         output += entry.rating;
 
+        // BEGINNING OF WORKING CARDS --
         id = entry.id;
         rating = entry.rating;
-        const card = document.createElement('div');
-        card.setAttribute('class', 'card');
+        card = document.createElement('div');
+        card.setAttribute('class', 'card centerdata');
+        // Modify the below width so that all content scales
+        card.setAttribute('style', 'width: 30rem');
+        img = document.createElement('img');
+        img.setAttribute('src', 'lake.jpg');
+        img.setAttribute('class', 'card-img-top');
+        cbody = document.createElement('div');
+        cbody.setAttribute('class', 'card-body');
+        h5 = document.createElement('h5');
+        h5.setAttribute('class', 'card-title');
+        h5.textContent = 'Card Title AAAAAAAAAAAAAAAAAAAAAAAAAA BBBBBBBBBBBBBBBBBBBBBBBBBBBB CCCCCCCCCCCCCCCCCCCC';
+        p1 = document.createElement('p');
+        p1.setAttribute('class', 'card-text');
+        p1.textContent = 'Example text :D';
 
-        const h1 = document.createElement('h1');
-        h1.textContent = id;
-
-        const p = document.createElement('p');
-        p.textContent = rating;
-
-        container.appendChild(card);
-        card.appendChild(h1);
-        card.appendChild(p);
-        // textfield = document.createElement('p');
-        // textfield.textContent = 'HELLOOOOOOOOOOOOO';
+        // END OF WORKING CARDS --
+        
         // card = document.createElement('div');
-        // card.setAttribute('class', 'card');
-        // card.setAttribute('style', 'width: 18rem;');
+        // // card.setAttribute('style', 'width: 100px');
+        // card.setAttribute('class', 'col-12');
+        // card.setAttribute('style', 'height: 2000px');
+        // card.setAttribute('style', 'background-color: #C0C0C0');
+
+        // imgdiv = document.createElement('div');
+        // // imgdiv.setAttribute('style', 'width: 100%');
+        // imgdiv.setAttribute('class', 'col-2');
         // img = document.createElement('img');
-        // img.setAttribute('src', 'lake.jpg');
+        // img.src = 'lake.jpg';
+        // img.setAttribute('class', 'col-12');
         // cbody = document.createElement('div');
         // cbody.setAttribute('class', 'card-body');
+        // cbody.setAttribute('stlye', 'background-color: green');
+        // p1 = document.createElement('p');
+        // p1.textContent = 'p1 test goes here!!!';
 
-        
+        card.appendChild(img);
+        cbody.appendChild(h5);
+        cbody.appendChild(p1);
+        card.appendChild(cbody);
 
-        // contentArea = document.getElementById('content');
+        contentArea = document.getElementById('content');
+
+        contentArea.appendChild(card);
+        // card.appendChild(cbody);
+        // card.appendChild(h5);
         // contentArea.appendChild(card);
-        // contentArea.appendChild(img);
-        // contentArea.appendChild(cbody);
+        // Add line break to differentiate cards
+        br = document.createElement('br');
+        contentArea.appendChild(br);
     }
     document.getElementById("testcontent").innerHTML = output;
 }
