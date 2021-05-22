@@ -47,6 +47,8 @@
     </script> -->
     <h1 id="mainHeader">Niko's AZ Fishing Guide</h1>
         <input id="clickMe" type="button" value="clickme" onclick="populate_results()">
+        <input id="orderbyRating" type="button" value="Order by rating" onclick="order_by_rating()">
+        <input id="resetallData" type="button" value="Reset allData" onclick="reset_allData()">
     <div id="content">
         <p id="testcontent">This is testcontent</p>
         <!-- Use js to populate this -->
