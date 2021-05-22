@@ -13,7 +13,7 @@ function get_data() {
             var data = this.responseText;
             // console.log(data);
             var dataArray = data.split("\n");
-            // console.log(data);
+            console.log(data);
             allData = JSON.parse(data);
             // console.log(allData);
 
@@ -38,19 +38,9 @@ function printing_var() {
 }
 
 function populate_results() {
-    const app = document.getElementById('root');
-    const logo = document.createElement('img');
-    logo.src = 'lake.jpg';
-    const container = document.createElement('div');
-    container.setAttribute('class', 'container');
-
-    app.appendChild(logo);
-    app.appendChild(container);
     var output = '';
     for (var entry of allData) {
         console.log(entry.id);
-        output += entry.rating;
-
         // BEGINNING OF WORKING CARDS --
         id = entry.id;
         rating = entry.rating;
@@ -59,7 +49,83 @@ function populate_results() {
         // Modify the below width so that all content scales
         card.setAttribute('style', 'width: 30rem');
         img = document.createElement('img');
-        img.setAttribute('src', 'lake.jpg');
+        // img.setAttribute('src', 'saguaroLake.jpg');
+
+
+        // Switch to get proper image src
+        switch(entry.name) {
+            case 'Colorado River ':
+                img.setAttribute('src', 'images/coloradoRiver.jpg');
+                break;
+            case 'Arivaca Lake ':
+                img.setAttribute('src', 'images/arivacaLake.jpg');
+                break;
+            case 'Dankworth Pond ':
+                img.setAttribute('src', 'images/dankworthPond.jpg');
+                break;
+            case 'Frye Mesa Reservoir ':
+                img.setAttribute('src', 'images/frymesaReservoir.jpg');
+                break;
+            case 'Parker Canyon Lake ':
+                img.setAttribute('src', 'images/parkercanyonLake.jpg');
+                break;
+            case 'Apache Lake ':
+                img.setAttribute('src', 'images/apacheLake.jpg');
+                break;
+            case 'Bartlett Lake ':
+                img.setAttribute('src', 'images/bartlettLake.jpg');
+                break;
+            case 'Canyon Lake ':
+                img.setAttribute('src', 'images/canyonLake.jpg');
+                break;
+            case 'Lake Pleasant ':
+                img.setAttribute('src', 'images/lakePleasant.jpg');
+                break;
+            case 'Lower Salt River ':
+                img.setAttribute('src', 'images/lowersaltRiver.jpg');
+                break;
+            case 'Roosevelt Lake ':
+                img.setAttribute('src', 'images/rooseveltLake.jpg');
+                break;
+            case 'Saguaro Lake ':
+                img.setAttribute('src', 'images/saguaroLake.jpg');
+                break;
+            case 'Tempe Town Lake* ':
+                img.setAttribute('src', 'images/tempetownLake.jpg');
+                break;
+            case 'Bear Canyon Lake ':
+                img.setAttribute('src', 'images/bearcanyonLake.jpg');
+                break;
+            case 'Black Canyon Lake ':
+                img.setAttribute('src', 'images/blackcanyonLake.jpg');
+                break;
+            case 'Chevelon Canyon ':
+                img.setAttribute('src', 'images/chevelonCanyon.jpg');
+                break;
+            case 'Willow Springs Lake ':
+                img.setAttribute('src', 'images/willowspringsLake.jpg');
+                break;
+            case 'Woods Canyon Lake ':
+                img.setAttribute('src', 'images/woodscanyonLake.jpg');
+                break;
+            case 'Becker Lake ':
+                img.setAttribute('src', 'images/beckerLake.jpg');
+                break;
+            case 'Big Lake ':
+                img.setAttribute('src', 'images/bigLake.jpg');
+                break;
+            case 'Greer Lakes ':
+                img.setAttribute('src', 'images/greerLakes.jpg');
+                break;
+            case 'Carnero Lake ':
+                img.setAttribute('src', 'images/carneroLake.jpg');
+                break;
+            default:
+                console.log('default switch executed');
+                img.setAttribute('src', 'images/saguaroLake.jpg');
+        }
+
+
         img.setAttribute('class', 'card-img-top');
         cbody = document.createElement('div');
         cbody.setAttribute('class', 'card-body');
