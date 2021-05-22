@@ -131,10 +131,14 @@ function populate_results() {
         cbody.setAttribute('class', 'card-body');
         h5 = document.createElement('h5');
         h5.setAttribute('class', 'card-title');
-        h5.textContent = 'Card Title AAAAAAAAAAAAAAAAAAAAAAAAAA BBBBBBBBBBBBBBBBBBBBBBBBBBBB CCCCCCCCCCCCCCCCCCCC';
+        h5.textContent = entry.name;
         p1 = document.createElement('p');
         p1.setAttribute('class', 'card-text');
-        p1.textContent = 'Example text :D';
+        p1.textContent = 'Region: ' + entry.region;
+        p2 = document.createElement('p');
+        p2.setAttribute('class', 'card-text');
+        p2.textContent = 'Fishing rating: ' + entry.rating;
+
 
         // END OF WORKING CARDS --
         
@@ -159,6 +163,7 @@ function populate_results() {
         card.appendChild(img);
         cbody.appendChild(h5);
         cbody.appendChild(p1);
+        cbody.appendChild(p2);
         card.appendChild(cbody);
 
         contentArea = document.getElementById('content');

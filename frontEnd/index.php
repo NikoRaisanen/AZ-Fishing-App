@@ -1,6 +1,9 @@
+<p id='trash' style='display:none;'>
 <?php 
     include_once("../backEnd/phpToJs.php"); 
 ?>
+</p>
+
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="UTF-8">
