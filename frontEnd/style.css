@@ -6,14 +6,16 @@ body {
 }
 
 * {
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
 #content {
   margin: auto;
-  width: 50%;
+  width: 80%;
   border: 3px solid green;
   padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .centerdata {

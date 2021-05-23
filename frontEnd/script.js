@@ -340,6 +340,7 @@ function order_by_name() {
         card.setAttribute('class', 'card centerdata');
         // Modify the below width so that all content scales
         card.setAttribute('style', 'width: 30rem');
+        // card.setAttribute('style', 'float: left');
         img = document.createElement('img');
 
 
@@ -467,9 +468,10 @@ function order_by_region() {
         id = entry.id;
         rating = entry.rating;
         card = document.createElement('div');
-        card.setAttribute('class', 'card centerdata');
+        card.setAttribute('class', 'card p-2');
+        // card.setAttribute('style', 'float: right');
         // Modify the below width so that all content scales
-        card.setAttribute('style', 'width: 30rem');
+        card.setAttribute('style', 'width: 20rem');
         img = document.createElement('img');
 
 
@@ -571,8 +573,8 @@ function order_by_region() {
 
         contentArea.appendChild(card);
         // Add line break to differentiate cards
-        br = document.createElement('br');
-        contentArea.appendChild(br);
+        // br = document.createElement('br');
+        // contentArea.appendChild(br);
         reset_allData();
     }
 }

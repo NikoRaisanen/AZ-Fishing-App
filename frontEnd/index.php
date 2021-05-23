@@ -25,6 +25,7 @@
         <div id="searchdiv" class='centerdata' style='display:none;'>
             <label for="search">Order by:</label>
             <select id="search" name="search" onchange="update_search(value)">
+                <option disabled selected value> -- select an option -- </option>
                 <option value="name">Name</option>
                 <option value="rating">Rating</option>
                 <option value="region">Region</option>
@@ -32,8 +33,7 @@
         </div>
 
 
-    <div id="content">
-        <p id="testcontent">This is testcontent</p>
+    <div id="content" class="d-flex flex-wrap">
         <!-- Use js to populate this -->
     </div>
     <div id="root"></div>
