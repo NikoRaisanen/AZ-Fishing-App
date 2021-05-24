@@ -172,7 +172,6 @@ function remove_output () {
 }
 
 function order_by_rating() {
-    console.log('THis is the order by region function: \n' + JSON.stringify(allData));
     for (var i = 0; i < allData.length; i++) {
         console.log(i)
         console.log(allData[i]);
@@ -191,9 +190,6 @@ function order_by_rating() {
 
     // Delete previous results
     document.getElementById("content").innerHTML = " ";
-
-
-
 
     for (var entry of allData) {
         console.log(entry.id);
@@ -451,27 +447,15 @@ function order_by_name() {
 function order_by_region() {
     document.getElementById("content").innerHTML = " ";
     console.log('THis is the order by region function: \n' + JSON.stringify(allData));
-    for (var i = 0; i < allData.length; i++) {
-        console.log(i)
-        console.log(allData[i]);
-    }
-    // Sort alphabetically by name
-    allData.sort(function(a, b) {
-        return a.region > b.region;
-    })
-    // Put "Poor" ratings to beginning
-    console.log(allData);
-
     for (var entry of allData) {
         console.log(entry.id);
 
         id = entry.id;
         rating = entry.rating;
         card = document.createElement('div');
-        card.setAttribute('class', 'card p-2');
-        // card.setAttribute('style', 'float: right');
+        card.setAttribute('class', 'card centerdata');
         // Modify the below width so that all content scales
-        card.setAttribute('style', 'width: 20rem');
+        card.setAttribute('style', 'width: 30rem');
         img = document.createElement('img');
 
 
@@ -573,8 +557,8 @@ function order_by_region() {
 
         contentArea.appendChild(card);
         // Add line break to differentiate cards
-        // br = document.createElement('br');
-        // contentArea.appendChild(br);
+        br = document.createElement('br');
+        contentArea.appendChild(br);
         reset_allData();
     }
 }
@@ -597,3 +581,17 @@ function update_search(selection) {
             console.log('default case for update_search function');
         }
 }
+
+// Get weather information via API
+async function get_weather() {
+    var apidata;
+    getJson('http://api.openweathermap.org/data/2.5/weather?q=phoenix&APPID=d65bb6fca23cbd6681e7005e2f6f58d0')
+        .then(data => console.log(data));
+}
+
+async function getJson(url) {
+    let response = await fetch(url);
+    let data = await response.json()
+    return data;
+}
+

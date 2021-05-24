@@ -16,17 +16,26 @@
     also show text explaining what the app is-->
 
     <h1 id="mainHeader">Niko's AZ Fishing Guide</h1>
-        <input id="getstarted" type="button" value="Get started!" onclick="order_by_name()">
-        <p id="intro">Hello this is my intro paragraph!</p>
-        <!-- <input id="orderbyRating" type="button" value="Order by rating" onclick="order_by_rating()">
-        <input id="orderbyName" type="button" value="Order by name" onclick="order_by_name()">
-        <input id="orderbyRegion" type="button" value="Order by region" onclick="order_by_region()">
-        <input id="resetallData" type="button" value="Reset allData" onclick="reset_allData()"> -->
+    <br>
+    <br>
+    <br>
+    <div id="introdiv">
+        <p id="intro" class="text-wrap text-justify">This application was created to help Arizona fisherman decide which body of water they should spend their day at. Arizona fishing reports can be found all over the web, but most sources are outdated and lack the ability to filter by the parameters that are most important to you.
+        <br>
+        <br>
+        All results on this page are timely as they are pulled daily from the official AZFGD website. The unique element of this application is the ability to filter results based on several fields, including the weather of each location.
+        </p>
+    </div>
+    <br>
+    <br>
+    <div class="text-center">
+        <input id="getstarted" class="btn btn-primary btn-lg" type="button" value="Get started!" onclick="order_by_name()">
+    </div>
         <div id="searchdiv" class='centerdata' style='display:none;'>
-            <label for="search">Order by:</label>
+            <label for="search">Order by:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
             <select id="search" name="search" onchange="update_search(value)">
                 <option disabled selected value> -- select an option -- </option>
-                <option value="name">Name</option>
+                <option value="name" selected="selected">Name</option>
                 <option value="rating">Rating</option>
                 <option value="region">Region</option>
             </select>
