@@ -338,6 +338,8 @@ function order_by_name() {
         card.setAttribute('style', 'width: 30rem');
         // card.setAttribute('style', 'float: left');
         img = document.createElement('img');
+        temp = document.createElement('h5');
+        temp.innerText = "Temperature here!";
 
 
         // Switch to get proper image src
@@ -432,6 +434,7 @@ function order_by_name() {
         cbody.appendChild(h5);
         cbody.appendChild(p1);
         cbody.appendChild(p2);
+        cbody.appendChild(temp);
         card.appendChild(cbody);
 
         contentArea = document.getElementById('content');
@@ -582,12 +585,16 @@ function update_search(selection) {
         }
 }
 
-// Get weather information via API
-async function get_weather() {
-    var apidata;
-    getJson('http://api.openweathermap.org/data/2.5/weather?q=phoenix&APPID=d65bb6fca23cbd6681e7005e2f6f58d0')
-        .then(data => console.log(data));
-}
+// // Get weather information via API
+// async function get_weather(q) {
+//     getJson('http://api.openweathermap.org/data/2.5/weather?q=phoenix&APPID=d65bb6fca23cbd6681e7005e2f6f58d0&units=imperial')
+//         .then(data => {
+//             // var temp = data.main.temp;
+//             // var desc = data.weather[0].description;
+//             console.log(data);
+//             return data;
+//         });
+// }
 
 async function getJson(url) {
     let response = await fetch(url);
