@@ -1,6 +1,7 @@
 // Ajax to import sql query results from php to js
 var allData;
 var testvar = "hi";
+var weatherinfo = [];
 function get_data() {
 
         var oReq = new XMLHttpRequest(); // New request object
@@ -29,6 +30,7 @@ function get_data() {
 
 function set_allData() {
     get_data();
+    get_weather();
     console.log(allData);
     console.log(testvar);
 }
@@ -324,7 +326,6 @@ function order_by_name() {
     allData.sort(function(a, b) {
         return a.name > b.name;
     })
-    // Put "Poor" ratings to beginning
     console.log(allData);
 
     for (var entry of allData) {
@@ -338,80 +339,103 @@ function order_by_name() {
         card.setAttribute('style', 'width: 30rem');
         // card.setAttribute('style', 'float: left');
         img = document.createElement('img');
-        temp = document.createElement('h5');
-        temp.innerText = "Temperature here!";
+        temp = document.createElement('p');
+        temp.textContent = "TEMP HERE";
 
 
         // Switch to get proper image src
         switch(entry.name) {
             case 'Colorado River ':
                 img.setAttribute('src', 'images/coloradoRiver.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[0] + ' °F';
                 break;
             case 'Arivaca Lake ':
                 img.setAttribute('src', 'images/arivacaLake.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[1] + ' °F';
                 break;
             case 'Dankworth Pond ':
                 img.setAttribute('src', 'images/dankworthPond.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[2] + ' °F';
                 break;
             case 'Frye Mesa Reservoir ':
                 img.setAttribute('src', 'images/frymesaReservoir.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[3] + ' °F';
                 break;
             case 'Parker Canyon Lake ':
                 img.setAttribute('src', 'images/parkercanyonLake.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[4] + ' °F';
                 break;
             case 'Apache Lake ':
                 img.setAttribute('src', 'images/apacheLake.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[5] + ' °F';
                 break;
             case 'Bartlett Lake ':
                 img.setAttribute('src', 'images/bartlettLake.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[6] + ' °F';
                 break;
             case 'Canyon Lake ':
                 img.setAttribute('src', 'images/canyonLake.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[7] + ' °F';
                 break;
             case 'Lake Pleasant ':
                 img.setAttribute('src', 'images/lakePleasant.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[8] + ' °F';
                 break;
             case 'Lower Salt River ':
                 img.setAttribute('src', 'images/lowersaltRiver.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[9] + ' °F';
                 break;
             case 'Roosevelt Lake ':
                 img.setAttribute('src', 'images/rooseveltLake.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[10] + ' °F';
                 break;
             case 'Saguaro Lake ':
                 img.setAttribute('src', 'images/saguaroLake.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[11] + ' °F';
                 break;
             case 'Tempe Town Lake* ':
                 img.setAttribute('src', 'images/tempetownLake.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[12] + ' °F';
                 break;
             case 'Bear Canyon Lake ':
                 img.setAttribute('src', 'images/bearcanyonLake.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[13] + ' °F';
                 break;
             case 'Black Canyon Lake ':
                 img.setAttribute('src', 'images/blackcanyonLake.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[14] + ' °F';
                 break;
             case 'Chevelon Canyon ':
                 img.setAttribute('src', 'images/chevelonCanyon.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[15] + ' °F';
                 break;
             case 'Willow Springs Lake ':
                 img.setAttribute('src', 'images/willowspringsLake.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[16] + ' °F';
                 break;
             case 'Woods Canyon Lake ':
                 img.setAttribute('src', 'images/woodscanyonLake.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[17] + ' °F';
                 break;
             case 'Becker Lake ':
                 img.setAttribute('src', 'images/beckerLake.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[18] + ' °F';
                 break;
             case 'Big Lake ':
                 img.setAttribute('src', 'images/bigLake.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[19] + ' °F';
                 break;
             case 'Greer Lakes ':
                 img.setAttribute('src', 'images/greerLakes.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[20] + ' °F';
                 break;
             case 'Carnero Lake ':
                 img.setAttribute('src', 'images/carneroLake.jpg');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[21] + ' °F';
                 break;
             default:
                 console.log('default switch executed');
+                temp.textContent = 'Current temp: ☀️  ' + weatherinfo[0] + ' °F';
                 img.setAttribute('src', 'images/saguaroLake.jpg');
         }
 
@@ -428,6 +452,7 @@ function order_by_name() {
         p2 = document.createElement('p');
         p2.setAttribute('class', 'card-text');
         p2.textContent = 'Fishing rating: ' + entry.rating;
+        temp.setAttribute('style', 'float: right');
 
 
         card.appendChild(img);
@@ -438,7 +463,6 @@ function order_by_name() {
         card.appendChild(cbody);
 
         contentArea = document.getElementById('content');
-
         contentArea.appendChild(card);
         // Add line break to differentiate cards
         br = document.createElement('br');
@@ -585,16 +609,18 @@ function update_search(selection) {
         }
 }
 
-// // Get weather information via API
-// async function get_weather(q) {
-//     getJson('http://api.openweathermap.org/data/2.5/weather?q=phoenix&APPID=d65bb6fca23cbd6681e7005e2f6f58d0&units=imperial')
-//         .then(data => {
-//             // var temp = data.main.temp;
-//             // var desc = data.weather[0].description;
-//             console.log(data);
-//             return data;
-//         });
-// }
+// Get pre-load weather information via API
+async function get_weather() {
+    var locations = ['parker', 'amado', 'safford', 'safford', 'sonoita', 'roosevelt', 'carefree', 'roosevelt', 'morristown', 'roosevelt', 'roosevelt', 'roosevelt', 'tempe', 'payson,928', 'heber', 'heber', 'payson,928', 'payson,928', 'springerville', 'springerville', 'greer', 'springerville'];
+
+    locations.forEach(function (location) {
+        console.log(location);
+        getJson('http://api.openweathermap.org/data/2.5/weather?q=' + location + '&APPID=d65bb6fca23cbd6681e7005e2f6f58d0&units=imperial')
+        .then(data => {
+            weatherinfo.push(data.main.temp);
+        });
+    })
+}
 
 async function getJson(url) {
     let response = await fetch(url);
@@ -602,3 +628,36 @@ async function getJson(url) {
     return data;
 }
 
+
+
+
+
+
+
+
+// function get_weather() {
+
+//     var oReq = new XMLHttpRequest(); // New request object
+//     oReq.onload = function() {
+//         // This is where you handle what to do with the response.
+//         // The actual data is found on this.responseText
+//         // alert(this.responseText); // Will alert: 42
+
+//         // Convert data from php to javascript
+//         var data = this.responseText;
+//         // console.log(data);
+//         console.log(data);
+//         datajson = JSON.parse(data);
+//         console.log(datajson.main);
+//         // console.log(allData);
+//         return datajson.main.temp;
+
+//     };
+//     oReq.open("get", "http://api.openweathermap.org/data/2.5/weather?q=phoenix&APPID=d65bb6fca23cbd6681e7005e2f6f58d0&units=imperial", true);
+//     //                               ^ Don't block the rest of the execution.
+//     //                                 Don't wait until the request finishes to
+//     //                                 continue.
+//     oReq.send();
+//     // console.log(dataArray);
+//     // return dataArray;
+// }
