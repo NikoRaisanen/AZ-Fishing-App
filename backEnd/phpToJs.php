@@ -1,6 +1,5 @@
 <?php
-    $today = date("Y-m-d"); 
-    select_query("SELECT * FROM waters WHERE created_at = '$today'");
+    select_query("SELECT * FROM waters WHERE created_at = CURDATE()");
 
     function get_pw() {
         $myfile = fopen("../backEnd/password.txt", "r");
@@ -15,7 +14,7 @@
         $dbpass = get_pw();
         $db = "az_water_info";
 
-        // Create connection
+        // Create connection object
         $conn = new mysqli($dbhost, $dbuser, $dbpass, $db);
 
         // Check connection

@@ -211,16 +211,6 @@ func db_select() []dbEntry {
 		allResults = append(allResults, water)
 	}
 
-	// // Only return results where current day == created_at day
-	// for i := 0; i < len(allResults); i++ {
-	// 	current_time := time.Now()
-	// 	formattedTime := current_time.Format("2006-01-02 15:04:05")
-	// 	if formattedTime[0:10] == allResults[i].time[0:10] {
-	// 		validResults = append(validResults, allResults[i])
-	// 	}
-
-	// }
-
 	return allResults
 }
 
@@ -266,7 +256,6 @@ func main() {
 	for i := 0; i < len(allData); i++ {
 		db_insert(allData[i][1], allData[i][2], allData[i][4])
 	}
-	var dbResults []dbEntry
-	dbResults = db_select()
+	var dbResults []dbEntry = db_select()
 	fmt.Println(dbResults)
 }
