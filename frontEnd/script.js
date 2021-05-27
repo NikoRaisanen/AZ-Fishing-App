@@ -34,6 +34,9 @@ function remove_output () {
 }
 
 function order_by_rating() {
+    // Delete previous results
+    remove_output();
+
     // Sort alphabetically by rating
     allData.sort(function(a, b) {
         return b.rating > a.rating;
@@ -46,9 +49,6 @@ function order_by_rating() {
     })
 
     // allData is now ordered by BEST to WORST fishing rating
-
-    // Delete previous results
-    document.getElementById("content").innerHTML = " ";
 
     for (var entry of allData) {
         card = document.createElement('div');
@@ -118,13 +118,10 @@ function order_by_name() {
         card.setAttribute('style', 'width: 30rem');
         img = document.createElement('img');
         temp2 = document.createElement('p');
-        console.log(weatherinfo);
 
         // Get image + current temp for each card based on name
         src = weather_and_image(entry.name)[0];
         temperature = weather_and_image(entry.name)[1];
-        console.log(src)
-        console.log(temperature);
         temp2.textContent = temperature;
         img.setAttribute('src', src);
 
@@ -162,7 +159,7 @@ function order_by_name() {
 
 function order_by_region() {
     // Clear old results if present
-    document.getElementById("content").innerHTML = " ";
+    remove_output();
     for (var entry of allData) {
         card = document.createElement('div');
         card.setAttribute('class', 'card centerdata');
@@ -209,6 +206,7 @@ function order_by_region() {
     }
 }
 
+// Show results depending on search query selected by user
 function update_search(selection) {
     switch(selection) {
         case 'name':
@@ -228,15 +226,16 @@ function update_search(selection) {
 // Pre-load weather information via openweathermap API
 async function get_weather() {
     // Array of cities to get the temperature for the bodies of water, in same order as switch in weather_and_image()
-    var locations = ['parker', 'amado', 'safford', 'safford', 'sonoita', 'roosevelt', 'carefree', 
-    'roosevelt', 'morristown', 'roosevelt', 'roosevelt', 'roosevelt', 'tempe', 'payson,928', 'heber',
-     'heber', 'payson,928', 'payson,928', 'springerville', 'springerville', 'greer', 'springerville'];
+    var locations = ['parker', 'amado', 'safford', 'safford', 'sonoita', 'roosevelt,az,us', 'roosevelt,az,us', 
+    'roosevelt,az,us', 'morristown', 'roosevelt,az,us', 'roosevelt,az,us', 'roosevelt,az,us', 'tempe', 'payson,az,us', 'heber',
+     'heber', 'payson,az,us', 'payson,az,us', 'springerville', 'springerville', 'greer', 'springerville'];
 
     // Get weather information for each body of water 
     locations.forEach(function (location) {
         console.log(location);
         getJson('http://api.openweathermap.org/data/2.5/weather?q=' + location + '&APPID=d65bb6fca23cbd6681e7005e2f6f58d0&units=imperial')
         .then(data => {
+            console.log(data.main.temp);
             weatherinfo.push(data.main.temp);
         });
     })
@@ -248,7 +247,7 @@ async function getJson(url) {
     return data;
 }
 
-//
+// Match each body of water with their respective image and weather info
 function weather_and_image(name) {
     switch(name) {
         case 'Colorado River ':
@@ -335,13 +334,23 @@ function weather_and_image(name) {
             src = 'images/greerLakes.jpg';
             temp = 'Current temp: ☀️  ' + weatherinfo[20] + ' °F';
             return [src, temp];
-        case 'Carnero Lake ':
+        case 'Carnero Lake':
             src = 'images/carneroLake.jpg';
             temp = 'Current temp: ☀️  ' + weatherinfo[21] + ' °F';
             return [src, temp];
         default:
             src = 'images/apacheLake.jpg';
-            temp = 'DEFAULT SWITCH';
+            temp = 'No weather info';
             return [src, temp];
         }
 }
+
+/* 
+Weather off:
+Bartlett
+Canyon lake
+lower salt river
+saguaro lake
+willow springs lake
+chevelon canyon
+*/
