@@ -226,16 +226,14 @@ function update_search(selection) {
 // Pre-load weather information via openweathermap API
 async function get_weather() {
     // Array of cities to get the temperature for the bodies of water, in same order as switch in weather_and_image()
-    var locations = ['parker', 'amado', 'safford', 'safford', 'sonoita', 'roosevelt,az,us', 'roosevelt,az,us', 
-    'roosevelt,az,us', 'morristown', 'roosevelt,az,us', 'roosevelt,az,us', 'roosevelt,az,us', 'tempe', 'payson,az,us', 'heber',
-     'heber', 'payson,az,us', 'payson,az,us', 'springerville', 'springerville', 'greer', 'springerville'];
+    var locations = ['greenwood,az,us', 'amado,az,us', 'safford,az,us', 'sonoita,az,us',
+    'roosevelt,az,us', 'peoria,az,us', 'phoenix,az,us', 'tempe,az,us',
+    'payson,az,us', 'greer,az,us', 'springerville,az,us'];
 
-    // Get weather information for each body of water 
+    // Get weather information for each location
     locations.forEach(function (location) {
-        console.log(location);
         getJson('http://api.openweathermap.org/data/2.5/weather?q=' + location + '&APPID=d65bb6fca23cbd6681e7005e2f6f58d0&units=imperial')
         .then(data => {
-            console.log(data.main.temp);
             weatherinfo.push(data.main.temp);
         });
     })
@@ -264,79 +262,79 @@ function weather_and_image(name) {
             return [src, temp];
         case 'Frye Mesa Reservoir ':
             src = 'images/frymesaReservoir.jpg';
-            temp = 'Current temp: ☀️  ' + weatherinfo[3] + ' °F';
+            temp = 'Current temp: ☀️  ' + weatherinfo[2] + ' °F';
             return [src, temp];
         case 'Parker Canyon Lake ':
             src = 'images/parkercanyonLake.jpg';
-           temp = 'Current temp: ☀️  ' + weatherinfo[4] + ' °F';
+           temp = 'Current temp: ☀️  ' + weatherinfo[3] + ' °F';
            return [src, temp];
         case 'Apache Lake ':
             src = 'images/apacheLake.jpg';
-            temp = 'Current temp: ☀️  ' + weatherinfo[5] + ' °F';
+            temp = 'Current temp: ☀️  ' + weatherinfo[4] + ' °F';
             return [src, temp];
         case 'Bartlett Lake ':
             src = 'images/bartlettLake.jpg';
-            temp = 'Current temp: ☀️  ' + weatherinfo[6] + ' °F';
+            temp = 'Current temp: ☀️  ' + weatherinfo[4] + ' °F';
             return [src, temp];
         case 'Canyon Lake ':
            src = 'images/canyonLake.jpg';
-           temp = 'Current temp: ☀️  ' + weatherinfo[7] + ' °F';
+           temp = 'Current temp: ☀️  ' + weatherinfo[4] + ' °F';
            return [src, temp];
         case 'Lake Pleasant ':
             src = 'images/lakePleasant.jpg';
-            temp = 'Current temp: ☀️  ' + weatherinfo[8] + ' °F';
+            temp = 'Current temp: ☀️  ' + weatherinfo[5] + ' °F';
             return [src, temp];
         case 'Lower Salt River ':
             src = 'images/lowersaltRiver.jpg';
-            temp = 'Current temp: ☀️  ' + weatherinfo[9] + ' °F';
+            temp = 'Current temp: ☀️  ' + weatherinfo[6] + ' °F';
             return [src, temp];
         case 'Roosevelt Lake ':
             src = 'images/rooseveltLake.jpg';
-            temp = 'Current temp: ☀️  ' + weatherinfo[10] + ' °F';
+            temp = 'Current temp: ☀️  ' + weatherinfo[4] + ' °F';
             return [src, temp];
         case 'Saguaro Lake ':
             src = 'images/saguaroLake.jpg';
-            temp = 'Current temp: ☀️  ' + weatherinfo[11] + ' °F';
+            temp = 'Current temp: ☀️  ' + weatherinfo[4] + ' °F';
             return [src, temp];
         case 'Tempe Town Lake* ':
             src = 'images/tempetownLake.jpg';
-            temp = 'Current temp: ☀️  ' + weatherinfo[12] + ' °F';
+            temp = 'Current temp: ☀️  ' + weatherinfo[7] + ' °F';
             return [src, temp];
         case 'Bear Canyon Lake ':
             src = 'images/bearcanyonLake.jpg';
-            temp = 'Current temp: ☀️  ' + weatherinfo[13] + ' °F';
+            temp = 'Current temp: ☀️  ' + weatherinfo[8] + ' °F';
             return [src, temp];
         case 'Black Canyon Lake ':
             src = 'images/blackcanyonLake.jpg';
-            temp = 'Current temp: ☀️  ' + weatherinfo[14] + ' °F';
+            temp = 'Current temp: ☀️  ' + weatherinfo[8] + ' °F';
             return [src, temp];
         case 'Chevelon Canyon ':
             src = 'images/chevelonCanyon.jpg';
-            temp = 'Current temp: ☀️  ' + weatherinfo[15] + ' °F';
+            temp = 'Current temp: ☀️  ' + weatherinfo[8] + ' °F';
             return [src, temp];
         case 'Willow Springs Lake ':
             src = 'images/willowspringsLake.jpg';
-            temp = 'Current temp: ☀️  ' + weatherinfo[16] + ' °F';
+            temp = 'Current temp: ☀️  ' + weatherinfo[8] + ' °F';
             return [src, temp];
         case 'Woods Canyon Lake ':
             src = 'images/woodscanyonLake.jpg';
-            temp = 'Current temp: ☀️  ' + weatherinfo[17] + ' °F';
+            temp = 'Current temp: ☀️  ' + weatherinfo[8] + ' °F';
             return [src, temp];
         case 'Becker Lake ':
             src = 'images/beckerLake.jpg';
-            temp = 'Current temp: ☀️  ' + weatherinfo[18] + ' °F';
+            temp = 'Current temp: ☀️  ' + weatherinfo[10] + ' °F';
             return [src, temp];
         case 'Big Lake ':
             src = 'images/bigLake.jpg';
-            temp = 'Current temp: ☀️  ' + weatherinfo[19] + ' °F';
+            temp = 'Current temp: ☀️  ' + weatherinfo[10] + ' °F';
             return [src, temp];
         case 'Greer Lakes ':
             src = 'images/greerLakes.jpg';
-            temp = 'Current temp: ☀️  ' + weatherinfo[20] + ' °F';
+            temp = 'Current temp: ☀️  ' + weatherinfo[9] + ' °F';
             return [src, temp];
         case 'Carnero Lake':
             src = 'images/carneroLake.jpg';
-            temp = 'Current temp: ☀️  ' + weatherinfo[21] + ' °F';
+            temp = 'Current temp: ☀️  ' + weatherinfo[10] + ' °F';
             return [src, temp];
         default:
             src = 'images/apacheLake.jpg';
