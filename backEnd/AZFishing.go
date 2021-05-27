@@ -134,7 +134,7 @@ func prepData(r []string, w []string, ref string) ([15][]string, int) {
 		name := w[i]
 		rating := r[i]
 		iString := strconv.Itoa(i)
-		current_time := time.Now().Format(time.RFC3339)
+		current_time := time.Now().Format("2006-01-02")
 		dbLine := newEntry(iString, name, rating, current_time, regionMap[ref])
 		dataSlice[i] = append(dataSlice[i], dbLine.number, dbLine.name,
 			dbLine.rating, dbLine.time, dbLine.region)

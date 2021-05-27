@@ -1,5 +1,6 @@
 <?php
-    select_query("SELECT * FROM waters");
+    $today = date("Y-m-d"); 
+    select_query("SELECT * FROM waters WHERE created_at = '$today'");
 
     function get_pw() {
         $myfile = fopen("../backEnd/password.txt", "r");
