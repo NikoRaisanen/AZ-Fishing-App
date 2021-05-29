@@ -35,7 +35,7 @@
         echo "[";
         while($row = $result->fetch_assoc()) {
             echo json_encode($row);
-            if ($row["id"] == $result->num_rows) {
+            if ($row["region"] == "NW Colorado River") {
                 echo "]";
             } else {
                 echo ",\n";
