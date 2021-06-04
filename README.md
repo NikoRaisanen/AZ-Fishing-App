@@ -3,7 +3,7 @@ This application was created to help Arizona fisherman decide which body of wate
 
 All results displayed on this application are timely as they are pulled daily from the official AZFGD website. The unique element of this application is the ability to filter results based on several fields, while also showing current temperature information (especially important in Arizona)
 
-## Demo and high-level explanation of project architecture and code
+## Video demo and high-level explanation of project architecture and code
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/Nuo6J5y7gXc/0.jpg)](https://www.youtube.com/watch?v=Nuo6J5y7gXc)
 
