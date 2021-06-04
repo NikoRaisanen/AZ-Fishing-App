@@ -5,7 +5,7 @@ All results displayed on this application are timely as they are pulled daily fr
 
 ## Demo and high-level explanation of project architecture and code
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Nuo6J5y7gXc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/Nuo6J5y7gXc/0.jpg)](https://www.youtube.com/watch?v=Nuo6J5y7gXc)
 
 ## Production implementation
 If I were to push this application to production I would:
